@@ -29,8 +29,8 @@ has fg => (
     isa => "ArrayRef",
     default => sub { [] },
     provides => {
-        push => "fg_push",
-        clear => "fg_clear",
+        push => "add_fg",
+        clear => "clear_fg",
     },
 );
 
@@ -48,6 +48,10 @@ has ext => (
 
 has config => (
     is => "rw",
+);
+
+has tree => (
+    is => "ro",
 );
 
 sub BUILDARGS {
@@ -76,10 +80,9 @@ sub BUILD {
     #これが最初のページだったらnoneで初期化
     unless (defined $self->prev) {
         $self->bg("none");
-
-        say Dumper $self;
+#        say Dumper $self;
         for (0..$self->config->fg_count) {
-            $self->fg_push("none");
+            $self->add_fg("none");
         }
 
         $self->name("none");
@@ -106,17 +109,17 @@ sub BUILD {
     }
 
     #前景画像リストの上書き/引き継ぎ/初期化
-    $self->fg_clear;
+    $self->clear_fg;
 
     #$self->fgをclearしてからpushで突っ込む
     for (0..$self->config->fg_count-1) {
         if (defined $self->tree->{fig}->{fg}->{"pos$_"}) {
-            $self->fg_push($self->tree->{fig}->{fg}->{"pos$_"});
+            $self->add_fg($self->tree->{fig}->{fg}->{"pos$_"});
         } elsif (defined $self->prev) {
-#            $self->fg_push(${$self->prev}->fg->[$_]);
-            $self->fg_push($self->prev->fg->[$_]);
+#            $self->add_fg(${$self->prev}->fg->[$_]);
+            $self->add_fg($self->prev->fg->[$_]);
         } else {
-            $self->fg_push("none");
+            $self->add_fg("none");
         }
     }
 
