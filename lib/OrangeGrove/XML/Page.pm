@@ -56,54 +56,30 @@ has tree => (
 
 sub BUILDARGS {
 
-    my ($self, $ctrlr, $tree, $prev) = @_;
+    my ($self, $ctrlr) = @_;
 
-    if (defined $prev) {
-         return {
-             proj => $ctrlr->proj
-             config => $ctrlr->config,
-             tree => $tree,
-             prev => $prev,
-         };
-     } else {
-         return {
-             proj => $ctrlr->proj
-             config => $ctrlr->config,
-             tree => $tree,
-         };
-     }
+    return { proj => $ctrlr->proj, config => $ctrlr->config };
+
 }
 
-sub BUILD {
-    my $self = shift;
+sub init {
 
-    #これが最初のページだったらnoneで初期化
-    unless (defined $self->prev) {
-        $self->bg("none");
-#        say Dumper $self;
-        for (0..$self->config->fg_count) {
-            $self->add_fg("none");
-        }
+    my ($self, $tree, $prev) = @_;
 
-        $self->name("none");
-        $self->msg("none");
-        $self->ext("none");
-    }
-
-    #ハッシュツリーからページを構築
+    $self->clear unless defined $prev;
 
     #ページタイトルは引き継がないので毎回初期化
-    if (defined $self->tree->{title}) {
-        $self->title($self->tree->{title});
+    if (defined $tree->{title}) {
+        $self->title($tree->{title});
     } else {
         $self->title("none");
     }
 
     #背景画像の上書き/引き継ぎ/初期化
-    if (defined $self->tree->{fig}->{bg}->{fig}) {
-        $self->bg($self->tree->{fig}->{bg}->{fig});
-    } elsif (defined $self->prev) {
-        $self->bg($self->prev->bg);
+    if (defined $tree->{fig}->{bg}->{fig}) {
+        $self->bg($tree->{fig}->{bg}->{fig});
+    } elsif (defined $prev) {
+        $self->bg($prev->bg);
     } else {
         $self->bg("none");
     }
@@ -112,37 +88,50 @@ sub BUILD {
     $self->clear_fg;
 
     #$self->fgをclearしてからpushで突っ込む
-    for (0..$self->config->fg_count-1) {
-        if (defined $self->tree->{fig}->{fg}->{"pos$_"}) {
-            $self->add_fg($self->tree->{fig}->{fg}->{"pos$_"});
-        } elsif (defined $self->prev) {
-#            $self->add_fg(${$self->prev}->fg->[$_]);
-            $self->add_fg($self->prev->fg->[$_]);
+    for (0..$self->config->fg_max - 1) {
+        if (defined $tree->{fig}->{fg}->{"pos$_"}) {
+            $self->add_fg($tree->{fig}->{fg}->{"pos$_"});
+        } elsif (defined $prev) {
+            $self->add_fg($prev->fg->[$_]);
         } else {
             $self->add_fg("none");
         }
     }
 
     #発言者は引き継がないので毎回初期化
-    if (defined $self->tree->{text}->{name}) {
-        $self->name($self->tree->{text}->{name})
+    if (defined $tree->{text}->{name}) {
+        $self->name($tree->{text}->{name})
     } else {
         $self->name("none");
     }
 
     #本文は引き継がないので毎回初期化
-    if (defined $self->tree->{text}->{msg}) {
-        $self->msg($self->tree->{text}->{msg});
+    if (defined $tree->{text}->{msg}) {
+        $self->msg($tree->{text}->{msg});
     } else {
         $self->msg("none");
     }
 
     #拡張は引き継がないので毎回初期化
-    if (defined $self->tree->{ext}) {
-        $self->ext($self->tree->{ext});
+    if (defined $tree->{ext}) {
+        $self->ext($tree->{ext});
     } else {
         $self->ext("none");
     }
+
+    return $self;
+}
+
+sub clear {
+    my $self = shift;
+
+    $self->bg("none");
+    for (0..$self->config->fg_max) {
+        $self->add_fg("none");
+    }
+    $self->name("none");
+    $self->msg("none");
+    $self->ext("none");
 
     return $self;
 }

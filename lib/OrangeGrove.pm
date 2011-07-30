@@ -19,15 +19,16 @@ has controller => (
 sub BUILD {
     my $self = shift;
     my $ctrlr_name = "OrangeGrove::" . $self->type . "::Controller";
+
     eval {
         Class::MOP::load_class($ctrlr_name);
     };
     if ( $@ ) {
+        say $@;
         die "Module for ". $self->type ." dosen't be installed.";
     }
 
-
-    my $controller = $ctrlr_name->new();
+    my $controller = $ctrlr_name->new($self->proj);
 
 }
 

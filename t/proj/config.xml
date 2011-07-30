@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config version="1.0">
+  <system>
+    <!-- System settings
+	 *size
+	 x: width of output
+	 y: height of output
+	 *output
+	 time: time for waiting next page
+	 frame: frame per seconds
+	 format: format of output image (ex: jpg, png, bmp etc...)
+    -->
+    <size x="800" y="600" />
+    <output time="6" frame="1" format="png" />
+  </system>
+  <fig>
+    <!-- Figure settings
+	 *bg
+	 TBD
+	 *fg
+	 num: number of foreground layer
+	 *pos%d
+	 hmiddle: x(horizontal) coordinate of center of figure
+	 vmiddle: y(vartical) coordinate of center of figure
+    -->
+    <bg />
+    <fg num="3">
+      <pos hmiddle="250" vmiddle="250" />
+      <pos hmiddle="400" vmiddle="250" />
+      <pos hmiddle="550" vmiddle="250" />
+    </fg>
+  </fig>
+  <text>
+    <!-- Text settings
+	 *character
+	 font: name of font file
+	 size: size of characeter (pt)
+	 *msgbox
+	 x: x coordinate of upper left of message box
+	 y: y coordinate of upper left of message box
+	 fig: name of image for message box
+	 *style
+	 raw: number of characters on a line
+	 column: number of lines
+    -->
+    <charcter font="fontfile" size="28" />
+    <msgbox x="45" y="385" fig="msgbox.png" />
+    <style raw="24" column="4" />
+  </text>
+</config>

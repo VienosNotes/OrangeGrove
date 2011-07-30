@@ -3,6 +3,12 @@ package OrangeGrove::XML::Controller;
 use 5.12.3;
 use Moose;
 use MooseX::AttributeHelpers;
+use XML::Simple;
+
+use Data::Dumper;
+
+use OrangeGrove::XML::Config;
+use OrangeGrove::XML::Page;
 
 has proj => (
     is => "ro"
@@ -27,7 +33,7 @@ has log => (
 );
 
 has config => (
-    is => "ro",
+    is => "rw",
 );
 
 sub BUILDARGS {
@@ -39,18 +45,19 @@ sub BUILDARGS {
 sub BUILD {
     my $self = shift;
 
-    my $tree = XML::Simple->new->XMLin($proj . "/scenario.xml");
-    $self->config(OrangeGrove::XML::Config->new(XML::Simple->new->XMLin($proj . "/config.xml")));
+    my $tree = XML::Simple->new->XMLin($self->proj . "/scenario.xml");
+    $self->config(OrangeGrove::XML::Config->new(XML::Simple->new->XMLin($self->proj . "/config.xml")));
 
-    for (0..${$tree->{pages}}) {
+    for (0.. scalar @{$tree->{page}}) {
         if ($_ == 0) {
-            $self->add_page(OrangeGrove::XML::Page->new($self, $tree->{pages}->[0]));
+            $self->add_page(OrangeGrove::XML::Page->new($self)->init($tree->{page}->[0]));
         }
         else {
-            $self->add_page(OrangeGrove::XML::Page->new($self, $tree->{pages}->[$_], $tree->{pages}->[$_-1]));
+            $self->add_page(OrangeGrove::XML::Page->new($self)->init($tree->{page}->[$_], $self->pages->[$_-1]));
         }
     }
 
-    $self->renderer(OrangeGrove::XML::Renderer->new($self->config));
+#    $self->renderer(OrangeGrove::XML::Renderer->new($self->config));
 }
-return 1;
+
+1;

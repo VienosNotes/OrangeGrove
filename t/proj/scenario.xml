@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<scenario version="1.0">
+
+  <page title="test1">
+    <fig>
+      <bg fig="bg_base" />
+      <fg pos0="fig1" pos1="fig2"  />
+    </fig>
+    <text>
+      <name>Name</name>
+      <msg>Here is Honbun.</msg>
+    </text>
+  </page>
+
+  <page title="test2">
+    <fig>
+      <bg fig="bg_base" />
+      <fg pos0="fig3" pos2="fig4" />
+    </fig>
+    <text>
+      <name>Name2</name>
+      <msg>Here is Honbun.2</msg>
+    </text>
+  </page>
+
+  <page>
+    <text>
+      <msg>
+	Very Short.
+      </msg>
+    </text>
+  </page>
+
+</scenario>
