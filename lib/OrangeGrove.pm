@@ -25,11 +25,10 @@ sub BUILD {
     };
     if ( $@ ) {
         say $@;
-        die "Module for ". $self->type ." dosen't be installed.";
+        die "Module for ". $self->type ." hasn't been installed yet.";
     }
 
     my $controller = $ctrlr_name->new($self->proj);
-
 }
 
 sub build {

@@ -9,6 +9,7 @@ use Data::Dumper;
 
 use OrangeGrove::XML::Config;
 use OrangeGrove::XML::Page;
+use OrangeGrove::XML::Renderer;
 
 has proj => (
     is => "ro"
@@ -25,7 +26,7 @@ has pages => (
 );
 
 has renderer => (
-    is => "ro",
+    is => "rw",
 );
 
 has log => (
@@ -57,7 +58,9 @@ sub BUILD {
         }
     }
 
-#    $self->renderer(OrangeGrove::XML::Renderer->new($self->config));
+    $self->renderer(OrangeGrove::XML::Renderer->new(@{$self->pages}));
+    $self->renderer->init();
+    $self->renderer->run();
 }
 
 1;

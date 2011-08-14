@@ -5,6 +5,8 @@
 #
 ########################################################################
 
+#=TODO configの構成
+
 package OrangeGrove::XML::Page;
 use 5.12.3;
 use Moose;
@@ -59,7 +61,6 @@ sub BUILDARGS {
     my ($self, $ctrlr) = @_;
 
     return { proj => $ctrlr->proj, config => $ctrlr->config };
-
 }
 
 sub init {

@@ -20,14 +20,14 @@
 	 *fg
 	 num: number of foreground layer
 	 *pos%d
-	 hmiddle: x(horizontal) coordinate of center of figure
-	 vmiddle: y(vartical) coordinate of center of figure
+	 xmid: x(horizontal) coordinate of center of figure
+	 ymid: y(vartical) coordinate of center of figure
     -->
     <bg />
     <fg num="3">
-      <pos hmiddle="250" vmiddle="250" />
-      <pos hmiddle="400" vmiddle="250" />
-      <pos hmiddle="550" vmiddle="250" />
+      <pos xmid="250" ymid="250" />
+      <pos xmid="400" ymid="250" />
+      <pos xmid="550" ymid="250" />
     </fg>
   </fig>
   <text>
