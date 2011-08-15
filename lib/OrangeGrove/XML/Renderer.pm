@@ -7,7 +7,7 @@ use MooseX::AttributeHelpers;
 use Encode;
 use Imager;
 use Imager::Font;
-use Imager::DTP::TextBox::Horizontal;
+use Imager::DTP::Textbox::Horizontal;
 
 use Data::Dumper;
 
@@ -25,10 +25,13 @@ has done => (
     is => "rw"
 );
 
+has proj => (
+    is => "ro"
+);
+
 sub BUILDARGS {
-    my ($self, @pages) = @_;
-#    say Dumper @_;
-    return { pages => \@pages, done => 0};
+    my ($self, $proj, @pages) = @_;
+    return { proj => $proj, pages => \@pages, done => 0};
 }
 
 sub init {
@@ -36,11 +39,10 @@ sub init {
 
 sub run {
     my $self = shift;
- #   say Dumper @{$self->pages};
+
 
     for (@{$self->pages}) {
-#        say Dumper $_;
-#        $self->render($_);
+        $self->render($_);
     }
 }
 
@@ -50,13 +52,15 @@ sub render {
     #背景のロード
 #    die Dumper $page;
     my $bg = Imager->new;
-    $bg->read(file => $page->bg) or die $bg->errstr;
+    $bg->read(file => $self->proj . "/fig/" . $page->bg) or die $bg->errstr;
 
     #前景のロード
 
     for (0..$page->config->fg_max) {
+
+        next if ((!defined $page->fg->[$_]) or ($page->fg->[$_] eq "none"));
         my $fg = Imager->new;
-        $fg->read(file => $page->fg->[$_]) or die $fg->errstr;
+        $fg->read(file => $self->proj . "/fig/" . $page->fg->[$_]) or die $fg->errstr;
 
         #背景と合成
         $bg->rubthrough(src => $fg,
@@ -67,7 +71,7 @@ sub render {
 
     #メッセージボックスのロード
     my $msgbox = Imager->new;
-    $msgbox->read(file => $page->config->msgbox->{fig}) or die $msgbox->errstr;
+    $msgbox->read(file => $self->proj . "/fig/" . $page->config->msgbox->{fig}) or die $msgbox->errstr;
 
     #合成
     $bg->rubthrough(src => $msgbox,
@@ -76,15 +80,18 @@ sub render {
                ) or die $bg->errstr;
 
     #フォントのロード
-    my $font = Imager::Font->new(file => $page->config->charcter->{font},
-                              size => $page->config->charcter->{size},
+    say  $self->proj ."/" . $page->config->character->{font};
+    my $font = Imager::Font->new(file => $self->proj ."/" . $page->config->character->{font},
+                              size => $page->config->character->{size},
                               aa => 1,
                               color => Imager::Color->new(r => 255, g => 255, b => 255)
                           );
 
+    die "fail!!!!!!11" unless defined $font;
+
     #テキストの生成
-    my $text = " - " . $page->name . " - \n" . $page->text;
-    my $tb = Imager::DTP::TextBox::Horizontal->new(text => decode("utf-8", $text),
+    my $text = " - " . $page->name . " - \n" . $page->msg;
+    my $tb = Imager::DTP::Textbox::Horizontal->new(text => decode("utf-8", $text),
                                                    font => $font,
                                                    wspace => 1,
                                                    leading => 130,
@@ -103,9 +110,9 @@ sub render {
           );
 
     #PNGとして出力
-    mkdir "./png" unless -d "./png";
+    mkdir $self->proj . "/output" unless -d $self->proj . "/output";
     my $num = sprintf("%10d", $self->done);
-    $bg->write(file => "./png/" . $num . ".png");
+    $bg->write(file => $self->proj . "/output/" . $num . ".png");
     $self->done($self->done + 1);
 }
 

@@ -58,8 +58,9 @@ sub BUILD {
         }
     }
 
-    $self->renderer(OrangeGrove::XML::Renderer->new(@{$self->pages}));
-    $self->renderer->init();
+    $self->renderer(OrangeGrove::XML::Renderer->new($self->proj, @{$self->pages}));
+    say Dumper $self->renderer;
+#    $self->renderer->init();
     $self->renderer->run();
 }
 

@@ -13,7 +13,7 @@ has proj => (
 );
 
 has controller => (
-    is => "ro",
+    is => "rw",
 );
 
 sub BUILD {
@@ -28,12 +28,7 @@ sub BUILD {
         die "Module for ". $self->type ." hasn't been installed yet.";
     }
 
-    my $controller = $ctrlr_name->new($self->proj);
-}
-
-sub build {
-    my $self = shift;
-    return 1;
+    $self->controller($ctrlr_name->new($self->proj));
 }
 
 return 1;

@@ -30,7 +30,7 @@ has fg_pos => (
 );
 
 #文字の設定
-has charcter => (
+has character => (
     is => "rw",
     isa => "HashRef",
 );
@@ -55,7 +55,7 @@ sub BUILDARGS {
         output => $tree->{system}->{output},
         fg_max => $tree->{fig}->{fg}->{num},
         fg_pos => $tree->{fig}->{fg}->{pos},
-        charcter => $tree->{text}->{charcter},
+        character => $tree->{text}->{character},
         msgbox => $tree->{text}->{msgbox},
         style => $tree->{text}->{style},
     }

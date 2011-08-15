@@ -43,7 +43,7 @@
 	 raw: number of characters on a line
 	 column: number of lines
     -->
-    <charcter font="fontfile" size="28" />
+    <character font="font.otf" size="28" />
     <msgbox x="45" y="385" fig="msgbox.png" />
     <style raw="24" column="4" />
   </text>
