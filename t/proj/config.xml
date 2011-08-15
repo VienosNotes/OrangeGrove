@@ -7,8 +7,8 @@
 	 y: 出力サイズの高さ
 	 *output
 	 time: ページ送りの待ち時間(秒)
-	 frame: 出力フレームレート
-	 format: 出力する画像のフォーマット
+	 frame: 出力フレームレート(ignored)
+	 format: 出力する画像のフォーマット(ignored)
     -->
     <size x="800" y="600" />
     <output time="6" frame="1" format="png" />
@@ -33,18 +33,18 @@
   <text>
     <!-- Text settings
 	 *character
-	 font: name of font file
-	 size: size of characeter (pt)
+	 font: フォントファイルの名前 - プロジェクト直下に配置
+	 size: フォントサイズ(pt)
 	 *msgbox
-	 x: x coordinate of upper left of message box
-	 y: y coordinate of upper left of message box
-	 fig: name of image for message box
+	 x: メッセージボックスの中心の横位置 - 左から0~100(%)
+	 y: メッセージボックスの中心の縦位置 - 上から0~100(%)
+	 fig: メッセージボックスに使用する画像
 	 *style
-	 raw: number of characters on a line
-	 column: number of lines
+	 raw: 一行に表示する文字数(ignored)
+	 column: 行数(ignored)
     -->
     <character font="font.otf" size="28" />
-    <msgbox x="45" y="385" fig="msgbox.png" />
+    <msgbox x="50" y="80" fig="msgbox.png" />
     <style raw="24" column="4" />
   </text>
 </config>

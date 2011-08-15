@@ -16,10 +16,6 @@ has pages => (
     is => "rw"
 );
 
-# has config => (
-#     is => "ro"
-# );
-
 has done => (
     isa => "Int",
     is => "rw"
@@ -78,8 +74,8 @@ sub render {
 
     #合成
     $bg->rubthrough(src => $msgbox,
-                   tx => $page->config->msgbox->{x},
-                   ty => $page->config->msgbox->{"y"},
+                   tx => $page->config->size->{x} * ($page->config->msgbox->{x} / 100) - $msgbox->getwidth/2,
+                   ty => $page->config->size->{"y"} * ($page->config->msgbox->{"y"} / 100) - $msgbox->getheight/2,
                ) or die $bg->errstr;
 
     #フォントのロード
@@ -92,7 +88,11 @@ sub render {
     die "フォント見つからないよ" unless defined $font;
 
     #テキストの生成
-    my $text = " - " . $page->name . " - \n" . $page->msg;
+    my $text = $page->msg;
+    say $text;
+    $text =~ s/\t+//g;
+    $text = " - " . $page->name . " - \n" . $text;
+    say $text;
     my $tb = Imager::DTP::Textbox::Horizontal->new(text => decode("utf-8", $text),
                                                    font => $font,
                                                    wspace => 1,
