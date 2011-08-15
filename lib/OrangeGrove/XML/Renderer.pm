@@ -86,7 +86,11 @@ sub render {
     $text =~ s/\A\n//;
     $text =~ s/\t+//g;
     unless ($page->name eq "none") {
-        $text = " - " . $page->name . " - \n" . $text;
+        my $name = $page->name;
+        $name =~ s/\n//g;
+        $name =~ s/\t+//g;
+        $name =~ s/\s\s+//g;
+        $text = " - " . $name . " - \n" . $text;
     } else {
         $text = "\n" . $text;
     }

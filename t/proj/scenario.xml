@@ -9,7 +9,7 @@
     </fig>
     <text>
       <name>Name</name>
-      <msg>fig1, fig2, none</msg>
+      <msg>fig1, fig2, 無し</msg>
     </text>
   </page>
 
@@ -25,6 +25,9 @@
 
   <page>
     <text>
+      <name>
+	なまえー
+      </name>
       <msg>
 	no change, new line test => あああああああああああああああああああああああああああ
 	いいいいいいいいいいいいいいいいいいいい
@@ -39,7 +42,7 @@
     </fig>
     <text>
       <msg>
-	fg all clear
+	立ち絵全部消す
       </msg>
     </text>
   </page>
