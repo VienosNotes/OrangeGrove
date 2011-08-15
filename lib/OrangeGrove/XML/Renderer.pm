@@ -4,7 +4,6 @@ use 5.12.3;
 use Moose;
 use MooseX::AttributeHelpers;
 
-use Encode;
 use Imager;
 use Imager::Font;
 use Imager::DTP::Textbox::Horizontal;
@@ -51,14 +50,14 @@ sub render {
 
     #背景のロード
     my $bg = Imager->new;
-    $bg->read(file => $self->proj . "fig/" . $page->bg) or die $bg->errstr;
+    $bg->read(file => $self->proj . "fig/" . $page->bg . ".png") or die $bg->errstr;
 
     #前景のロード
     for (0..$page->config->fg_max) {
 
         next if ((!defined $page->fg->[$_]) or ($page->fg->[$_] eq "none"));
         my $fg = Imager->new;
-        $fg->read(file => $self->proj . "fig/" . $page->fg->[$_]) or die $fg->errstr;
+        $fg->read(file => $self->proj . "fig/" . $page->fg->[$_] . ".png") or die $fg->errstr;
 
         #背景と合成
 
@@ -70,11 +69,11 @@ sub render {
 
     #メッセージボックスのロード
     my $msgbox = Imager->new;
-    $msgbox->read(file => $self->proj . "fig/" . $page->config->msgbox->{fig}) or die $msgbox->errstr;
+    $msgbox->read(file => $self->proj . "fig/" . $page->config->msgbox->{fig} . ".png") or die $msgbox->errstr;
 
 
     #フォントのロード
-    my $font = Imager::Font->new(file => $self->proj . $page->config->character->{font},
+    my $font = Imager::Font->new(file => $self->proj . $page->config->character->{font} . ".otf",
                               size => $page->config->character->{size},
                               aa => 1,
                               color => Imager::Color->new(r => 255, g => 255, b => 255)
@@ -86,10 +85,13 @@ sub render {
     my $text = $page->msg;
     $text =~ s/\A\n//;
     $text =~ s/\t+//g;
-    $text = " - " . $page->name . " - \n" . $text;
-    say $text;
-    say int $msgbox->getwidth - ($page->config->msgbox->{xmergin} / 50);
-    my $tb = Imager::DTP::Textbox::Horizontal->new(text => $text, #decode("utf-8", $text),
+    unless ($page->name eq "none") {
+        $text = " - " . $page->name . " - \n" . $text;
+    } else {
+        $text = "\n" . $text;
+    }
+
+    my $tb = Imager::DTP::Textbox::Horizontal->new(text => $text,
                                                    font => $font,
                                                    wspace => 1,
                                                    leading => 130,

@@ -4,8 +4,8 @@
 
   <page>
     <fig>
-      <bg fig="bg.png" />
-      <fg pos0="fig1.png" pos1="fig2.png" />
+      <bg fig="bg" />
+      <fg pos0="fig1" pos1="fig2" />
     </fig>
     <text>
       <name>Name</name>
@@ -15,7 +15,7 @@
 
   <page>
     <fig>
-      <fg pos0="fig3.png" pos2="fig1.png" />
+      <fg pos0="fig3" pos2="fig1" />
     </fig>
     <text>
       <name>Name2</name>
