@@ -85,7 +85,9 @@ sub render {
     my $text = $page->msg;
     $text =~ s/\A\n//;
     $text =~ s/\t+//g;
+
     unless ($page->name eq "none") {
+        #名前からタブと二文字以上の空白の除去
         my $name = $page->name;
         $name =~ s/\n//g;
         $name =~ s/\t+//g;
