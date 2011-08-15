@@ -26,8 +26,9 @@
   <page>
     <text>
       <msg>
-	no change, new line test => aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-	aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+	no change, new line test => あああああああああああああああああああああああああああ
+	いいいいいいいいいいいいいいいいいいいい
+	うううううううううううううう
       </msg>
     </text>
   </page>
@@ -38,7 +39,7 @@
     </fig>
     <text>
       <msg>
-      fg all clear
+	fg all clear
       </msg>
     </text>
   </page>

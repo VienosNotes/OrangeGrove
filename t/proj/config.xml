@@ -39,12 +39,14 @@
 	 x: メッセージボックスの中心の横位置 - 左から0~100(%)
 	 y: メッセージボックスの中心の縦位置 - 上から0~100(%)
 	 fig: メッセージボックスに使用する画像
+	 xmergin: 枠からテキストまでの横マージン - 左から0~100(%)
+	 ymergin: 枠からテキストまでの縦マージン - 上から0~100(%)
 	 *style
 	 raw: 一行に表示する文字数(ignored)
 	 column: 行数(ignored)
     -->
     <character font="font.otf" size="28" />
-    <msgbox x="50" y="80" fig="msgbox.png" />
+    <msgbox x="50" y="80" fig="msgbox.png" xmergin="3" ymergin="6" />
     <style raw="24" column="4" />
   </text>
 </config>

@@ -72,11 +72,6 @@ sub render {
     my $msgbox = Imager->new;
     $msgbox->read(file => $self->proj . "fig/" . $page->config->msgbox->{fig}) or die $msgbox->errstr;
 
-    #合成
-    $bg->rubthrough(src => $msgbox,
-                   tx => $page->config->size->{x} * ($page->config->msgbox->{x} / 100) - $msgbox->getwidth/2,
-                   ty => $page->config->size->{"y"} * ($page->config->msgbox->{"y"} / 100) - $msgbox->getheight/2,
-               ) or die $bg->errstr;
 
     #フォントのロード
     my $font = Imager::Font->new(file => $self->proj . $page->config->character->{font},
@@ -89,27 +84,34 @@ sub render {
 
     #テキストの生成
     my $text = $page->msg;
-    say $text;
+    $text =~ s/\A\n//;
     $text =~ s/\t+//g;
     $text = " - " . $page->name . " - \n" . $text;
     say $text;
-    my $tb = Imager::DTP::Textbox::Horizontal->new(text => decode("utf-8", $text),
+    say int $msgbox->getwidth - ($page->config->msgbox->{xmergin} / 50);
+    my $tb = Imager::DTP::Textbox::Horizontal->new(text => $text, #decode("utf-8", $text),
                                                    font => $font,
                                                    wspace => 1,
                                                    leading => 130,
                                                    halign => "left",
                                                    valign => "top",
-                                                   wrapWidth => $msgbox->getwidth - 50,
-                                                   wrapHeight => $msgbox->getheight - 50,
+                                                   wrapWidth => int $msgbox->getwidth - ($msgbox->getwidth * ($page->config->msgbox->{xmergin} / 50)),
+                                                   wrapHeight => int $msgbox->getheight - ($msgbox->getheight * ($page->config->msgbox->{ymergin} / 50)),
                                                    xscale => 1,
                                                    yscale => 1
                                                );
 
     #テキストの合成
-    $tb->draw(target => $bg,
-              x => $page->config->msgbox->{x} + 15,
-              y => $page->config->msgbox->{"y"} + 25,
+    $tb->draw(target => $msgbox,
+              x => $msgbox->getwidth * ($page->config->msgbox->{xmergin} / 100),
+              y => $msgbox->getheight * ($page->config->msgbox->{ymergin} /100),
           );
+
+    #メッセージボックスの合成
+    $bg->rubthrough(src => $msgbox,
+                   tx => $page->config->size->{x} * ($page->config->msgbox->{x} / 100) - $msgbox->getwidth/2,
+                   ty => $page->config->size->{"y"} * ($page->config->msgbox->{"y"} / 100) - $msgbox->getheight/2,
+               ) or die $bg->errstr;
 
     #PNGとして出力
     mkdir $self->proj . "/output" unless -d $self->proj . "/output";
