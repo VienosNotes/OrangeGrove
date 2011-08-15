@@ -4,21 +4,29 @@ use 5.12.3;
 use Moose;
 use Data::Dumper;
 
+our $VERSION = "Beta";
+
 has type => (
     is => "ro",
 );
 
 has proj => (
-    is => "ro",
+    is => "rw",
 );
 
 has controller => (
     is => "rw",
 );
 
+
+
 sub BUILD {
+
+    say "This is Orange Grove - Movie Builder ver. $VERSION";
+
     my $self = shift;
     my $ctrlr_name = "OrangeGrove::" . $self->type . "::Controller";
+    $self->proj($self->proj . "/") unless ($self->proj =~ m/.*\/$/);
 
     eval {
         Class::MOP::load_class($ctrlr_name);

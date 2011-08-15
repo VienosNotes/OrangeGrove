@@ -7,6 +7,6 @@ use Moose;
 
 my $og = OrangeGrove->new(type => "XML", proj => "./t/proj");
 ok $og->type eq "XML";
-ok $og->proj eq "./t/proj";
+ok $og->proj eq "./t/proj/";
 
 done_testing;

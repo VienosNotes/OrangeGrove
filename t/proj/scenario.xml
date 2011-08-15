@@ -26,7 +26,8 @@
   <page>
     <text>
       <msg>
-	no change, new line test => aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+	no change, new line test => aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+	aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
       </msg>
     </text>
   </page>

@@ -3,12 +3,12 @@
   <system>
     <!-- System settings
 	 *size
-	 x: width of output
-	 y: height of output
+	 x: 出力サイズの幅
+	 y: 出力サイズの高さ
 	 *output
-	 time: time for waiting next page
-	 frame: frame per seconds
-	 format: format of output image (ex: jpg, png, bmp etc...)
+	 time: ページ送りの待ち時間(秒)
+	 frame: 出力フレームレート
+	 format: 出力する画像のフォーマット
     -->
     <size x="800" y="600" />
     <output time="6" frame="1" format="png" />
@@ -18,16 +18,16 @@
 	 *bg
 	 TBD
 	 *fg
-	 num: number of foreground layer
+	 num: 立ち絵の最大数
 	 *pos%d
-	 xmid: x(horizontal) coordinate of center of figure
-	 ymid: y(vartical) coordinate of center of figure
+	 xmid: 立ち絵の中心の横位置 - 左から0~100(%)
+	 ymid: 立ち絵の中心の縦位置 - 上から0~100(%)
     -->
     <bg />
     <fg num="3">
-      <pos xmid="250" ymid="250" />
-      <pos xmid="400" ymid="250" />
-      <pos xmid="550" ymid="250" />
+      <pos xmid="25" ymid="50" />
+      <pos xmid="50" ymid="50" />
+      <pos xmid="75" ymid="50" />
     </fg>
   </fig>
   <text>

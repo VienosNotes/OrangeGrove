@@ -44,12 +44,19 @@ sub BUILDARGS {
 }
 
 sub BUILD {
+
     my $self = shift;
 
-    my $tree = XML::Simple->new->XMLin($self->proj . "/scenario.xml");
-    $self->config(OrangeGrove::XML::Config->new(XML::Simple->new->XMLin($self->proj . "/config.xml")));
+    print " => loading scenario.xml ...";
+    my $tree = XML::Simple->new->XMLin($self->proj . "scenario.xml");
+    say "done.";
+
+    print " => loading config.xml ...";
+    $self->config(OrangeGrove::XML::Config->new(XML::Simple->new->XMLin($self->proj . "config.xml")));
+    say "done.";
 
     for (0.. scalar @{$tree->{page}}) {
+        print ("\r => Building page " .  ($_ + 1) . " / " . (scalar(@{$tree->{page}}) + 1) . " ...");
         if ($_ == 0) {
             $self->add_page(OrangeGrove::XML::Page->new($self)->init($tree->{page}->[0]));
         }
@@ -57,9 +64,9 @@ sub BUILD {
             $self->add_page(OrangeGrove::XML::Page->new($self)->init($tree->{page}->[$_], $self->pages->[$_-1]));
         }
     }
+    say "done.";
 
     $self->renderer(OrangeGrove::XML::Renderer->new($self->proj, @{$self->pages}));
-    say Dumper $self->renderer;
 #    $self->renderer->init();
     $self->renderer->run();
 }
