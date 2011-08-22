@@ -31,7 +31,7 @@ has total => (
 
 sub BUILDARGS {
     my ($self, $proj, @pages) = @_;
-    return { proj => $proj, pages => \@pages, done => 0};
+    return { proj => $proj, pages => \@pages, done => 1};
 }
 
 sub _init {
@@ -136,7 +136,7 @@ sub _write {
     my ($self, $img) = @_;
 
     print "\r";
-    printf (" => Drawing frame %d / %d ...", $self->done + 1, $self->total);
+    printf (" => Drawing frame %d / %d ...", $self->done, $self->total);
 
     mkdir $self->proj . "/output" unless -d $self->proj . "/output";
     my $num = sprintf("%010d", $self->done);
