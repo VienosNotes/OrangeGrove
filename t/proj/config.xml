@@ -6,12 +6,12 @@
 	 x: 出力サイズの幅
 	 y: 出力サイズの高さ
 	 *output
-	 time: ページ送りの待ち時間(秒)
+	 wait: ページ送りの待ち時間(秒)
 	 frame: 出力フレームレート(ignored)
 	 format: 出力する画像のフォーマット(ignored)
     -->
     <size x="800" y="600" />
-    <output time="6" frame="1" format="png" />
+    <output wait="6" frame="1" format="png" />
   </system>
   <fig>
     <!-- Figure settings

@@ -24,33 +24,43 @@ has proj => (
     is => "ro"
 );
 
+has total => (
+    is => "rw",
+    isa => "Int"
+);
+
 sub BUILDARGS {
     my ($self, $proj, @pages) = @_;
     return { proj => $proj, pages => \@pages, done => 0};
 }
 
-sub init {
+sub _init {
+    my $self = shift;
+    $self->total(@{$self->pages} * $self->pages->[0]->config->output->{wait} * $self->pages->[0]->config->output->{frame});
+
 }
 
 sub run {
     my $self = shift;
-
+    $self->_init;
     for (@{$self->pages}) {
 
         print "\r";
-        printf (" => Drawing page %d / %d ...", $self->done + 1, scalar @{$self->pages});
+        printf (" => Drawing frame %d / %d ...", $self->done + 1, $self->total);
 
-        $self->render($_);
+        my $img = $self->_build($_);
+        $self->_write($img) for 1..($self->pages->[0]->config->output->{wait} * $self->pages->[0]->config->output->{frame});
     }
         say "done.";
 }
 
-sub render {
+sub _build {
     my ($self, $page)  = @_;
 
     #背景のロード
     my $bg = Imager->new;
     $bg->read(file => $self->proj . "fig/" . $page->bg . ".png") or die $bg->errstr;
+    $bg = $bg->scale(type => "nonprop", xpixels => $page->config->size->{x}, ypixels => $page->config->size->{"y"});
 
     #前景のロード
     for (0..$page->config->fg_max) {
@@ -73,7 +83,7 @@ sub render {
 
 
     #フォントのロード
-    my $font = Imager::Font->new(file => $self->proj . $page->config->character->{font} . ".otf",
+    my $font = Imager::Font->new(file => $self->proj . $page->config->character->{font} . ".ttf",
                               size => $page->config->character->{size},
                               aa => 1,
                               color => Imager::Color->new(r => 255, g => 255, b => 255)
@@ -121,11 +131,16 @@ sub render {
                    ty => $page->config->size->{"y"} * ($page->config->msgbox->{"y"} / 100) - $msgbox->getheight/2,
                ) or die $bg->errstr;
 
-    #PNGとして出力
-    mkdir $self->proj . "/output" unless -d $self->proj . "/output";
-    my $num = sprintf("%010d", $self->done);
-    $bg->write(file => $self->proj . "/output/" . $num . ".png");
-    $self->done($self->done + 1);
+    return $bg;
 }
 
+sub _write {
+
+    my ($self, $img) = @_;
+    mkdir $self->proj . "/output" unless -d $self->proj . "/output";
+    my $num = sprintf("%010d", $self->done);
+    $img->write(file => $self->proj . "/output/" . $num . ".png");
+    $self->done($self->done + 1);
+
+}
 return 1;
