@@ -44,7 +44,9 @@ sub BUILDARGS {
 }
 
 sub BUILD {
+}
 
+sub run {
     my $self = shift;
 
     print " => loading scenario.xml ...";
@@ -55,7 +57,6 @@ sub BUILD {
     $self->config(OrangeGrove::XML::Config->new(XML::Simple->new->XMLin($self->proj . "config.xml")));
     say "done.";
 
-#    say Dumper $tree->{page};
     for (0.. scalar @{$tree->{page}}) {
         print ("\r => Building page " .  ($_ + 1) . " / " . (scalar(@{$tree->{page}}) + 1) . " ...");
         if ($_ == 0) {
@@ -68,7 +69,6 @@ sub BUILD {
     say "done.";
 
     $self->renderer(OrangeGrove::XML::Renderer->new($self->proj, @{$self->pages}));
-#    $self->renderer->init();
     $self->renderer->run();
 }
 

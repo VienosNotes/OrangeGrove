@@ -39,4 +39,8 @@ sub BUILD {
     $self->controller($ctrlr_name->new($self->proj));
 }
 
+sub run {
+    my $self = shift;
+    $self->controller->run;
+}
 return 1;

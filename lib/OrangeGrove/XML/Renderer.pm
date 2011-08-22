@@ -45,9 +45,6 @@ sub run {
     $self->_init;
     for (@{$self->pages}) {
 
-        print "\r";
-        printf (" => Drawing frame %d / %d ...", $self->done + 1, $self->total);
-
         my $img = $self->_build($_);
         $self->_write($img) for 1..($self->pages->[0]->config->output->{wait} * $self->pages->[0]->config->output->{frame});
     }
@@ -137,6 +134,10 @@ sub _build {
 sub _write {
 
     my ($self, $img) = @_;
+
+    print "\r";
+    printf (" => Drawing frame %d / %d ...", $self->done + 1, $self->total);
+
     mkdir $self->proj . "/output" unless -d $self->proj . "/output";
     my $num = sprintf("%010d", $self->done);
     $img->write(file => $self->proj . "/output/" . $num . ".png");
