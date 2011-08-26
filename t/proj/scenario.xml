@@ -15,6 +15,17 @@
 
   <page>
     <fig>
+      <bg fig="bg" />
+      <fg pos0="fig1" pos1="fig2" />
+    </fig>
+    <text>
+      <name>none</name>
+      <msg>none</msg>
+    </text>
+  </page>
+
+  <page>
+    <fig>
       <fg pos0="fig3" pos2="fig1" />
     </fig>
     <text>
