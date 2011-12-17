@@ -9,6 +9,8 @@ use Imager::Font;
 use Imager::DTP::Textbox::Horizontal;
 
 use Data::Dumper;
+use utf8;
+use Encode;
 
 has pages => (
     isa => "ArrayRef",
@@ -44,7 +46,7 @@ sub run {
     my $self = shift;
     $self->_init;
     for (@{$self->pages}) {
-
+#        say Dumper $_;
         my $img = $self->_build($_);
         $self->_write($img) for 1..($self->pages->[0]->config->output->{wait} * $self->pages->[0]->config->output->{frame});
     }
@@ -117,7 +119,7 @@ sub _build {
                                                        xscale => 1,
                                                        yscale => 1
                                                    );
-
+#        say scalar @{$tb->getLines};
         #テキストの合成
         $tb->draw(target => $msgbox,
                   x => $msgbox->getwidth * ($page->config->msgbox->{xmergin} / 100),
@@ -136,7 +138,7 @@ sub _build {
 sub _write {
 
     my ($self, $img) = @_;
-
+    local $| = 1;
     print "\r";
     printf (" => Drawing frame %d / %d ...", $self->done, $self->total);
 
@@ -145,6 +147,44 @@ sub _write {
     $img->write(file => $self->proj . "/output/" . $num . ".png");
     $self->done($self->done + 1);
 
+}
+
+sub run_with_index {
+    # 可変フレームレート未対応版
+    # インデックスはページ番号であり、フレーム番号ではないことに注意
+    my ($self, $idx) = @_;
+
+    my $img = $self->_build_with_index($idx);
+    $self->_write_with_index($idx, $img);
+    # mkdir $self->proj . "/output" unless -d $self->proj . "/output";
+    # my $name = $self->config->output->{wait} * $self->config->output->{frame} * $idx;
+
+    # my $num = sprintf("%010d", $self->done);
+    # $img->write(file => $self->proj . "/output/" . $num . ".png");
+    # $self->done($self->done + 1);
+
+}
+
+sub _write_with_index {
+    my ($self, $idx, $img) = @_;
+
+    mkdir $self->proj . "/output" unless -d $self->proj . "/output";
+    my $start = $self->config->output->{wait} * $self->config->output->{frame} * $idx;
+
+    for (1..($self->config->output->{wait} * $self->config->output->{frame})) {
+        my $num = sprintf("%010d", $start);
+        $img->write(file => $self->proj . "/output/" . $num . ".png");
+        $self->done($start + 1);
+    }
+}
+
+sub _build_with_index {
+
+    my ($self, $idx) = @_;
+    my $count = $self->config->output->{wait} * $self->config->output->{frame};
+
+    my $target = $self->page->[$idx];
+    return $self->_build($target);
 }
 
 return 1;

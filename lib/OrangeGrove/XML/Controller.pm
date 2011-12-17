@@ -57,8 +57,8 @@ sub run {
     $self->config(OrangeGrove::XML::Config->new(XML::Simple->new->XMLin($self->proj . "config.xml")));
     say "done.";
 
-    for (0.. scalar @{$tree->{page}}) {
-        print ("\r => Building page " .  ($_ + 1) . " / " . (scalar(@{$tree->{page}}) + 1) . " ...");
+    for (0.. (scalar @{$tree->{page}} -1)) {
+        print ("\r => Building page " .  ($_ + 1) . " / " . (scalar(@{$tree->{page}})) . " ...");
         if ($_ == 0) {
             $self->add_page(OrangeGrove::XML::Page->new($self)->init($tree->{page}->[0]));
         }

@@ -100,7 +100,7 @@ sub init {
     }
 
     #発言者は引き継がないので毎回初期化
-    if (defined $tree->{text}->{name}) {
+    if (! $tree->{text}->{name} eq "") {
         $self->name($tree->{text}->{name})
     } else {
         $self->name("none");
