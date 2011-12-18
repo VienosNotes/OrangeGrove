@@ -5,9 +5,9 @@ use Moose;
 
 #chdir "t/proj";
 
-my $og = OrangeGrove->new(type => "XML", proj => "./t/proj");
+my $og = OrangeGrove->new(type => "XML", proj => "t/proj");
 $og->run;
 ok $og->type eq "XML";
-ok $og->proj eq "./t/proj/";
+ok $og->proj eq "t/proj/";
 
 done_testing;

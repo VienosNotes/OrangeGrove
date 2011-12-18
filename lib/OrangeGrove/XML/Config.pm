@@ -53,7 +53,7 @@ sub BUILDARGS {
     return {
         size => $tree->{system}->{size},
         output => $tree->{system}->{output},
-        fg_max => $tree->{fig}->{fg}->{num},
+        fg_max => scalar @{$tree->{fig}->{fg}->{pos}},
         fg_pos => $tree->{fig}->{fg}->{pos},
         character => $tree->{text}->{character},
         msgbox => $tree->{text}->{msgbox},

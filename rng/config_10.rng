@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<element name="config" xmlns="http://relaxng.org/ns/structure/1.0"
+  datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes">
+
+  <attribute name="version">
+    <data type="string">
+      <param name="pattern">1\.0</param>
+    </data>
+  </attribute> 
+
+  <element name="system">
+    <element name="size">
+      <attribute name="x">
+	<data type="integer" />
+      </attribute>
+      <attribute name="y">
+	<data type="integer" />
+      </attribute>	
+    </element>
+
+    <element name="output">
+      <attribute name="wait">
+	<data type="integer" />
+      </attribute>
+
+      <attribute name="frame">
+	<data type="integer" />
+      </attribute>
+
+      <attribute name="format">
+	<text />
+      </attribute>
+    </element>
+  </element>
+
+  <element name="fig">
+    <element name="fg">
+      <zeroOrMore>
+	<element name="pos">
+	  <attribute name="xmid">
+	    <data type="integer" />
+	  </attribute>
+	  
+	  <attribute name="ymid">
+	    <data type="integer" />
+	  </attribute>
+	</element>
+      </zeroOrMore>
+    </element>
+  </element>
+
+  <element name="text">
+    <element name="character">
+      <attribute name="font" />
+
+      <attribute name="size">
+	<data type="integer" />
+      </attribute>
+    </element>
+
+    <element name="msgbox">
+      <attribute name="x">
+	<data type="integer" />
+      </attribute>
+
+      <attribute name="y">
+	<data type="integer" />
+      </attribute>
+
+      <attribute name="fig" />
+
+      <attribute name="xmergin">
+	<data type="integer" />
+      </attribute>
+
+      <attribute name="ymergin">
+	<data type="integer" />
+      </attribute>
+    </element>
+
+    <element name="style">
+      <attribute name="raw">
+	<data type="integer" />
+      </attribute>
+
+      <attribute name="column">
+	<data type="integer" />
+      </attribute>
+    </element>
+  </element>
+</element>
