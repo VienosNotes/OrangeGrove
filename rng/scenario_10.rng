@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<element name="scenario" xmlns="http://relaxng.org/ns/structure/1.0"
+  datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes">
+  <attribute name="version">
+    <value>1.0</value>
+  </attribute>
+
+  <oneOrMore>
+    <element name="page">
+      <interleave>
+	<optional>
+	  <element name="fig">
+	    <interleave>
+	      <optional>
+		<element name="bg">
+		  <attribute name="fig" />
+		</element>
+	      </optional>
+
+	      <optional>
+		<element name="fg">
+		  <zeroOrMore>
+		    <attribute>
+		      <anyName />
+		    </attribute>
+		  </zeroOrMore>
+		</element>
+	      </optional>
+	    </interleave>
+	  </element>
+	</optional>
+
+	<optional>
+	    <element name="text">
+	      <interleave>
+		<optional>
+		  <element name="name">
+		    <text />
+		  </element>
+		</optional>
+
+		<optional>
+		  <element name="msg">
+		    <text />
+		  </element>
+		</optional>
+	      </interleave>
+	    </element>
+	</optional>
+      </interleave>
+    </element>
+  </oneOrMore>
+</element>
