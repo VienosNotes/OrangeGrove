@@ -4,7 +4,6 @@ use 5.12.3;
 use Moose;
 use MooseX::AttributeHelpers;
 use XML::Simple;
-
 use Data::Dumper;
 
 use OrangeGrove::XML::Config;
