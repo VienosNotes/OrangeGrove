@@ -51,7 +51,6 @@ sub run {
 
     print " => loading scenario.xml ...";
     my $tree = XML::Simple->new->XMLin($self->proj . "scenario.xml");
-#    say $prof Dumper $tree;
     say "done.";
 
     print " => loading config.xml ...";
@@ -79,9 +78,7 @@ sub run {
 
 sub _output_profile {
     my ($self, $prof, $page) = @_;
-    say $prof (sha1_hex(Dumper [$page->fg, $page->bg]) . "-" . sha1_hex(Dumper [$page->name, $page->msg]));
-#    say Dumper([$page->{fg}, $page->{bg}]);
-#    say Dumper([$page->{name}, $page->{msg}]);
+    say $prof (sha1_hex(Dumper $page->fg, $page->bg) . "-" . sha1_hex(Dumper $page->name, $page->msg));
 }
 
 1;

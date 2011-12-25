@@ -46,7 +46,6 @@ sub run {
     my $self = shift;
     $self->_init;
     for (@{$self->pages}) {
-#        say Dumper $_;
         my $img = $self->_build($_);
         $self->_write($img) for 1..($self->pages->[0]->config->output->{wait} * $self->pages->[0]->config->output->{frame});
     }
