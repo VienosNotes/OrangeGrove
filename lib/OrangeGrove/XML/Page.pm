@@ -5,10 +5,8 @@
 #
 ########################################################################
 
-#=TODO configの構成
-
 package OrangeGrove::XML::Page;
-use 5.12.3;
+use 5.14.0;
 use Moose;
 use MooseX::AttributeHelpers;
 use Data::Dumper;

@@ -1,14 +1,15 @@
 package OrangeGrove::XML::Controller;
 
-use 5.12.3;
+use 5.14.0; 
 use Moose;
 use MooseX::AttributeHelpers;
 use XML::Simple;
-use Data::Dumper;
+use XML::LibXML;
 use Digest::SHA1 qw/sha1_hex/;
 use OrangeGrove::XML::Config;
 use OrangeGrove::XML::Page;
 use OrangeGrove::XML::Renderer;
+use OrangeGrove::Utils;
 
 has proj => (
     is => "ro"
@@ -50,7 +51,7 @@ sub run {
     open my $prof, ">", $self->proj . "profile";
 
     print " => loading scenario.xml ...";
-    my $tree = XML::Simple->new->XMLin($self->proj . "scenario.xml");
+    my $tree = XML::Simple->new->XMLin($self->proj . "/scenario.xml");
     say "done.";
 
     print " => loading config.xml ...";

@@ -1,16 +1,13 @@
 package OrangeGrove::XML::Renderer;
 
-use 5.12.3;
+use 5.14.0;
+
 use Moose;
 use MooseX::AttributeHelpers;
-
 use Imager;
 use Imager::Font;
 use Imager::DTP::Textbox::Horizontal;
-
-use Data::Dumper;
-use utf8;
-use Encode;
+use OrangeGrove::Utils;
 
 has pages => (
     isa => "ArrayRef",
@@ -38,6 +35,7 @@ sub BUILDARGS {
 
 sub _init {
     my $self = shift;
+    sayd;
     $self->total(@{$self->pages} * $self->pages->[0]->config->output->{wait} * $self->pages->[0]->config->output->{frame});
 
 }
@@ -140,7 +138,6 @@ sub _write {
     local $| = 1;
     print "\r";
     printf (" => Drawing frame %d / %d ...", $self->done, $self->total);
-
     mkdir $self->proj . "/output" unless -d $self->proj . "/output";
     my $num = sprintf("%010d", $self->done);
     $img->write(file => $self->proj . "/output/" . $num . ".png");

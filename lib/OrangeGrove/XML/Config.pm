@@ -1,6 +1,6 @@
 package OrangeGrove::XML::Config;
 
-use 5.12.3;
+use 5.14.0;
 use Moose;
 
 our $VERSION = "1.0";
