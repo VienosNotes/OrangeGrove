@@ -3,3 +3,5 @@ t/proj/fig
 t/proj/font.otf
 t/proj/profile
 .DS_Store
+nytprof/*
+nytprof.out

@@ -1,6 +1,6 @@
 package OrangeGrove::XML::Controller;
 
-use 5.14.0; 
+use 5.14.0;
 use Moose;
 use MooseX::AttributeHelpers;
 use XML::Simple;

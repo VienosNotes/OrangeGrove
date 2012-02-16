@@ -140,7 +140,7 @@ sub _write {
     printf (" => Drawing frame %d / %d ...", $self->done, $self->total);
     mkdir $self->proj . "/output" unless -d $self->proj . "/output";
     my $num = sprintf("%010d", $self->done);
-    $img->write(file => $self->proj . "/output/" . $num . ".png");
+    $img->write(file => $self->proj . "/output/" . $num . ".png") if $OrangeGrove::FLAGS{OUTPUT};
     $self->done($self->done + 1);
 
 }

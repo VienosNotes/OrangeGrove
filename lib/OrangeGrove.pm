@@ -9,7 +9,7 @@ use OrangeGrove::Utils;
 our $VERSION = "Beta";
 our $DEBUG = 0;
 our $VALIDATE = 0;
-
+our %FLAGS;
 
 has type => (
     is => "ro",
