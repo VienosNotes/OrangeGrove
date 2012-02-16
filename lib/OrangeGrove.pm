@@ -3,7 +3,6 @@ package OrangeGrove;
 use 5.14.0;
 
 use Moose;
-#use Data::Dumper;
 use OrangeGrove::Utils;
 
 our $VERSION = "Beta";
@@ -46,4 +45,5 @@ sub run {
     my $self = shift;
     $self->controller->run;
 }
-return 1;
+
+1;

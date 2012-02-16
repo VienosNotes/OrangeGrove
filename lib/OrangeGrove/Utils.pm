@@ -4,7 +4,7 @@ use 5.14.0;
 use Term::ANSIColor qw/:constants/;
 use utf8;
 use Encode;
-use OrangeGrove;
+#use OrangeGrove qw/FLAGS/;
 our @EXPORT = qw/sayd Dumper/;
 use base qw/Exporter/;
 
@@ -22,7 +22,11 @@ BEGIN {
 $Data::Dumper::Useperl = 1;
 
 sub sayd {
-    return unless $OrangeGrove::FLAGS{DEBUG};
+
+    {
+        no warnings;
+        return unless $OrangeGrove::FLAGS{DEBUG};
+    }
     my ($pckg, $fn, $ln) = caller;
     my $sub = (caller(1))[3];
     print RED "[DEBUG]";
@@ -36,4 +40,5 @@ sub sayd {
 sub Dumper {
     encode("utf8", Data::Dumper::Dumper(@_));
 }
+
 1;

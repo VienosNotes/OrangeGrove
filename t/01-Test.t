@@ -7,6 +7,7 @@ $OrangeGrove::FLAGS{DEBUG} = 1;
 $OrangeGrove::FLAGS{CHECK} = 1;
 $OrangeGrove::FLAGS{VALIDATE} = 1;
 $OrangeGrove::FLAGS{OUTPUT} = 1;
+$OrangeGrove::FLAGS{CACHE} = 1;
 
 my $og = OrangeGrove->new(type => "XML", proj => "t/proj");
 $og->run;

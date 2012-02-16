@@ -8,6 +8,7 @@ use Imager;
 use Imager::Font;
 use Imager::DTP::Textbox::Horizontal;
 use OrangeGrove::Utils;
+use OrangeGrove::Cache;
 
 has pages => (
     isa => "ArrayRef",
@@ -54,16 +55,18 @@ sub _build {
     my ($self, $page)  = @_;
 
     #背景のロード
-    my $bg = Imager->new;
-    $bg->read(file => $self->proj . "fig/" . $page->bg . ".png") or die $bg->errstr;
+    my $bg = OrangeGrove::Cache->load($page->bg);
+#    my $bg = Imager->new;
+#    $bg->read(file => $self->proj . "fig/" . $page->bg . ".png") or die $bg->errstr;
     $bg = $bg->scale(type => "nonprop", xpixels => $page->config->size->{x}, ypixels => $page->config->size->{"y"});
 
     #前景のロード
     for (0..$page->config->fg_max) {
 
         next if ((!defined $page->fg->[$_]) or ($page->fg->[$_] eq "none"));
-        my $fg = Imager->new;
-        $fg->read(file => $self->proj . "fig/" . $page->fg->[$_] . ".png") or die $fg->errstr;
+        my $fg = OrangeGrove::Cache->load($page->fg->[$_]);
+        # my $fg = Imager->new;
+        # $fg->read(file => $self->proj . "fig/" . $page->fg->[$_] . ".png") or die $fg->errstr;
 
         #背景と合成
 
@@ -76,16 +79,21 @@ sub _build {
     #名前も文章もnoneならメッセージボックスを表示しない
     unless ($page->name eq "none" && $page->msg eq "none") {
         #メッセージボックスのロード
-        my $msgbox = Imager->new;
-        $msgbox->read(file => $self->proj . "fig/" . $page->config->msgbox->{fig} . ".png") or die $msgbox->errstr;
+        my $msgbox = OrangeGrove::Cache->load($page->config->msgbox->{fig});
+        # my $msgbox = Imager->new;
+        # $msgbox->read(file => $self->proj . "fig/" . $page->config->msgbox->{fig} . ".png") or die $msgbox->errstr;
 
 
         #フォントのロード
-        my $font = Imager::Font->new(file => $self->proj . $page->config->character->{font} . ".ttf",
-                                     size => $page->config->character->{size},
-                                     aa => 1,
-                                     color => Imager::Color->new(r => 255, g => 255, b => 255)
-                                 );
+        my $font = OrangeGrove::Cache->load_font(file => $self->proj . $page->config->character->{font} . ".ttf",
+                                                 size => $page->config->character->{size},
+                                                 aa => 1,
+                                                 color => Imager::Color->new(r => 255, g => 255, b => 255));
+        # my $font = Imager::Font->new(file => $self->proj . $page->config->character->{font} . ".ttf",
+                                     # size => $page->config->character->{size},
+                                     # aa => 1,
+                                     # color => Imager::Color->new(r => 255, g => 255, b => 255)
+        #                          );
 
         die "フォント見つからないよ" unless defined $font;
 
