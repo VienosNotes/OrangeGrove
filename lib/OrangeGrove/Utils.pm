@@ -22,7 +22,6 @@ BEGIN {
 $Data::Dumper::Useperl = 1;
 
 sub sayd {
-
     {
         no warnings;
         return unless $OrangeGrove::FLAGS{DEBUG};

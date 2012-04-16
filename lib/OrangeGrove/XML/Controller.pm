@@ -56,7 +56,7 @@ sub run {
     print " => loading config.xml ...";
     $self->config(OrangeGrove::XML::Config->new(XML::Simple->new->XMLin($self->proj . "config.xml")));
     say "done.";
-    OrangeGrove::Cache->initialize(proj => $self->proj, config => $self->config);
+    OrangeGrove::Cache->initialize(proj => $self->proj, config => $self->config) if $OrangeGrove::FLAGS{CACHE};
     my $page;
     for (0.. (scalar @{$tree->{page}} -1)) {
         print ("\r => Building page " .  ($_ + 1) . " / " . (scalar(@{$tree->{page}})) . " ...");
